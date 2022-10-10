@@ -45,7 +45,7 @@ main .screen {
 }
 main .screen #screen-text {
     height: 180px;
-    width: 500px;
+    min-width: 500px;
 
     display: flex;
     justify-content: flex-end;
@@ -54,9 +54,13 @@ main .screen #screen-text {
     font-size: 110px;
 
     color: #704F4F;
+
+    overflow-x: hidden;
+
+    white-space: nowrap;
 }
 
-main .numpad {
+main #numpad {
     background-color: #f3e6c9;
 
     border-radius: 0 0 20px 20px;
