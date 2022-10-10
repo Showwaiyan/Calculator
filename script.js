@@ -103,5 +103,6 @@ function postfixEval(postfixStr) {
             }
         }
     }
+    // There must be one element in the array and return this by using Array.pop()
     return numStack.pop();
 }
