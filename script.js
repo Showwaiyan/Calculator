@@ -70,8 +70,8 @@ function infixToPostfix(infixStr) {
     }
 
     // There might be at least one element in operator stack,
-    //so then pop this element by using
-    // Array.shift() function and
+    //  so then pop this element by using
+    // Array.pop() function and
     // added to the return string.
     while(opStack.length > 0) postFixStr += opStack.pop();
 
@@ -79,14 +79,15 @@ function infixToPostfix(infixStr) {
 }
 
 function postfixEval(postfixStr) {
-    const numStack = [];
+    const numStack = []; // store the number operand
 
     for (let i of postfixStr) {
         if (Number(i)) {
             numStack.push(Number(i))
         }
         else {
-            switch(i){
+            switch(i){ 
+                // pop two number operands and evaluated with the operator
                 case "+":
                     numStack.push(numStack.pop()+numStack.pop());
                     break;
