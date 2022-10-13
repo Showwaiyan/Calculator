@@ -58,7 +58,9 @@ function infixToPostfix(infixStr) {
         else {
             if (opStack.length > 0) {
                 // Operator predence comprassion and push to the post fix form
-               for (let j = opStack.length-1; predence[current] <= predence[opStack[j]] && j >=0; j--) {
+               for (let j = opStack.length-1; 
+                predence[current] <= predence[opStack[j]] && j >=0;
+                 j--) {
                 postFixStr += opStack[j];
                 opStack.splice(j,1); // Delect the element from array
                }
@@ -78,10 +80,10 @@ function infixToPostfix(infixStr) {
     return postFixStr; 
 }
 
-function postfixEval(postfixStr) {
+function postfixEval(postFixStr) {
     const numStack = []; // store the number operand
 
-    for (let i of postfixStr) {
+    for (let i of postFixStr) {
         if (Number(i)) {
             numStack.push(Number(i))
         }
