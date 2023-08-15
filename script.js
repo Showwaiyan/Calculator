@@ -37,25 +37,29 @@ function infixToPostfix(infixStr) {
 
     for (let current of infixStr){
 
-        if (Number(current)) { // Checking the current character is number or not
+        if (Number(current) || current == "0") { // Checking the current character is number or not
+            //checking zero is compulsory because
+            // Number("0") is return false 
             postFixStr += current;
         }
         else if (current === "(") {
             opStack.push(current);
         }
         else if (current === ")") {
+            postFixStr += ",";
            for (let op = opStack.length-1; op >= 0; op--) {
 
-            if (opStack[op] !== "("){
-                postFixStr += opStack[op];
-                opStack.splice(op,1); // Delect the element from array
-            }
-            else {
-                opStack.splice(op,1); // Delect the element from array
-            }
+                if (opStack[op] !== "("){
+                    postFixStr += opStack[op];
+                    opStack.splice(op,1); // Delect the element from array
+                }
+                else {
+                    opStack.splice(op,1); // Delect the element from array
+                }
            }
         }
         else {
+            if (!(`${postFixStr[postFixStr.length - 1]}` in predence)) postFixStr += ","; // dedicate to sepearate the two or more decimal number
             if (opStack.length > 0) {
                 // Operator predence comprassion and push to the post fix form
                for (let j = opStack.length-1; 
@@ -75,6 +79,8 @@ function infixToPostfix(infixStr) {
     //  so then pop this element by using
     // Array.pop() function and
     // added to the return string.
+    if (!(`${postFixStr[postFixStr.length - 1]}` in predence)) postFixStr += ","; // dedicate to sepearate the two or more decimal number
+
     while(opStack.length > 0) postFixStr += opStack.pop();
 
     return postFixStr; 
@@ -82,10 +88,11 @@ function infixToPostfix(infixStr) {
 
 function postfixEval(postFixStr) {
     const numStack = []; // store the number operand
+    let numstr = ""; // store for two or more decimal number
 
     for (let i of postFixStr) {
-        if (Number(i)) {
-            numStack.push(Number(i))
+        if (Number(i) || i == "0") {
+            numstr += i;
         }
         else {
             switch(i){ 
@@ -94,13 +101,17 @@ function postfixEval(postFixStr) {
                     numStack.push(numStack.pop()+numStack.pop());
                     break;
                 case "-":
-                    numStack.push(numStack.pop()-numStack.pop());
+                    numStack.push(numStack.shift()-numStack.pop());
                     break;
                 case "×":
                     numStack.push(numStack.pop()*numStack.pop());
                     break;
                 case "÷":
-                    numStack.push(numStack.pop()/numStack.pop());
+                    numStack.push(numStack.shift()/numStack.pop());
+                    break;
+                case ",":
+                    numStack.push(Number(numstr));
+                    numstr = ""; // reset the numstr to empty string 
                     break;
             }
         }
